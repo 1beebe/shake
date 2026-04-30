@@ -351,7 +351,7 @@ const styles = {
     width: "100%", maxWidth: "420px",
   },
   headerText: {
-    color: "#c9a84c", fontSize: "0.65rem", fontFamily: "'Cormorant Garamond', serif",
+    color: "#c9a84c", fontSize: "0.85rem", fontFamily: "'Cormorant Garamond', serif",
     fontWeight: 300, letterSpacing: "0.7em", opacity: 0.65,
   },
   ballWrapper: { userSelect: "none" },
@@ -389,17 +389,17 @@ const styles = {
     gap: "0.5rem", width: "100%",
   },
   instruction: {
-    color: "#c9a84c", fontSize: "0.62rem", letterSpacing: "0.5em",
+    color: "#c9a84c", fontSize: "0.85rem", letterSpacing: "0.5em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
     textTransform: "uppercase", opacity: 0.8,
   },
   subInstruction: {
-    color: "#5a5040", fontSize: "0.7rem",
+    color: "#5a5040", fontSize: "1rem",
     fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
   },
   permissionBtn: {
     background: "none", border: "1px solid rgba(201,168,76,0.3)",
-    color: "#c9a84c", padding: "0.75rem 2rem", fontSize: "0.6rem",
+    color: "#c9a84c", padding: "0.75rem 2rem", fontSize: "0.85rem",
     letterSpacing: "0.4em", fontFamily: "'Cormorant Garamond', serif",
     cursor: "pointer", textTransform: "uppercase",
   },
@@ -434,20 +434,20 @@ const styles = {
   },
   songInfo: { display: "flex", flexDirection: "column", gap: "0.25rem", flex: 1 },
   nowPlaying: {
-    color: "#c9a84c", fontSize: "0.5rem", letterSpacing: "0.5em",
+    color: "#c9a84c", fontSize: "0.7rem", letterSpacing: "0.5em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, opacity: 0.55,
   },
   songTitle: {
-    color: "#e8dfc8", fontSize: "1rem",
+    color: "#e8dfc8", fontSize: "1.3rem",
     fontFamily: "'Playfair Display', serif", fontWeight: 700,
   },
   songArtist: {
-    color: "#c9a84c", fontSize: "0.58rem", letterSpacing: "0.3em",
+    color: "#c9a84c", fontSize: "0.85rem", letterSpacing: "0.3em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
     textTransform: "uppercase", opacity: 0.65,
   },
   lyric: {
-    color: "#e8dfc8", fontSize: "1.2rem", fontFamily: "'Playfair Display', serif",
+    color: "#e8dfc8", fontSize: "1.4rem", fontFamily: "'Playfair Display', serif",
     fontStyle: "italic", fontWeight: 400, lineHeight: 1.55,
     textAlign: "center", width: "100%",
   },
@@ -467,11 +467,11 @@ const styles = {
     borderRadius: "2px", transition: "width 0.5s linear",
   },
   progressTime: {
-    color: "#5a5040", fontSize: "0.6rem",
+    color: "#5a5040", fontSize: "0.85rem",
     fontFamily: "'Cormorant Garamond', serif", flexShrink: 0,
   },
   previewLabel: {
-    color: "#5a5040", fontSize: "0.58rem",
+    color: "#5a5040", fontSize: "0.85rem",
     fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
   },
   waveform: { display: "flex", alignItems: "center", gap: "3px", height: "36px" },
@@ -482,14 +482,14 @@ const styles = {
   },
   divider: { width: "40px", height: "1px", background: "rgba(201,168,76,0.15)" },
   keepListening: {
-    color: "#c9a84c", fontSize: "0.5rem", letterSpacing: "0.55em",
+    color: "#c9a84c", fontSize: "0.75rem", letterSpacing: "0.55em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, opacity: 0.5,
   },
   streamLinks: { display: "flex", gap: "0.6rem", width: "100%" },
   streamBtn: {
     flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
     gap: "0.35rem", padding: "0.65rem 0.5rem",
-    fontSize: "0.62rem", letterSpacing: "0.1em",
+    fontSize: "0.9rem", letterSpacing: "0.1em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 400,
     textDecoration: "none", borderRadius: "6px", textTransform: "uppercase",
   },
@@ -498,7 +498,7 @@ const styles = {
   appleBtn: { background: "rgba(252,60,68,0.08)", color: "#fc3c44", border: "1px solid rgba(252,60,68,0.2)" },
   againBtn: {
     background: "none", border: "none", color: "#4a4030",
-    fontSize: "0.72rem", fontFamily: "'Cormorant Garamond', serif",
+    fontSize: "1rem", fontFamily: "'Cormorant Garamond', serif",
     fontStyle: "italic", cursor: "pointer", padding: "0.25rem", marginTop: "0.1rem",
   },
 };
