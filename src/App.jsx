@@ -241,6 +241,8 @@ export default function ShakeApp() {
           {phase === "shaking" && <p style={styles.instruction}>· · ·</p>}
           {phase === "loading" && <p style={styles.instruction}>digging the stacks</p>}
         </div>
+
+        <a href="https://lbeebe.com" target="_blank" rel="noopener noreferrer" style={styles.footer}>made by L Beebe</a>
       </div>
 
       {panelOpen && <div style={styles.backdrop} onClick={reset} />}
@@ -496,6 +498,10 @@ const styles = {
   spotifyBtn: { background: "rgba(30,215,96,0.08)", color: "#1ed760", border: "1px solid rgba(30,215,96,0.2)" },
   youtubeBtn: { background: "rgba(255,60,60,0.08)", color: "#ff4444", border: "1px solid rgba(255,60,60,0.2)" },
   appleBtn: { background: "rgba(252,60,68,0.08)", color: "#fc3c44", border: "1px solid rgba(252,60,68,0.2)" },
+  footer: {
+    color: "#3a3020", fontSize: "0.7rem", fontFamily: "'Cormorant Garamond', serif",
+    fontStyle: "italic", textDecoration: "none", opacity: 0.6,
+  },
   againBtn: {
     background: "none", border: "none", color: "#4a4030",
     fontSize: "1rem", fontFamily: "'Cormorant Garamond', serif",
