@@ -64,9 +64,11 @@ export default function ShakeApp() {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(30);
   const [ballPop, setBallPop] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
 
   const audioRef = useRef(null);
   const shakeRef = useRef({ lastX: null, lastY: null, lastZ: null, lastTime: 0, count: 0 });
+  const shakingTimerRef = useRef(null);
   const phaseRef = useRef("idle");
   const seenRef = useRef(new Set());
 
@@ -99,10 +101,19 @@ export default function ShakeApp() {
     const s = shakeRef.current;
     if (s.lastX !== null) {
       const delta = Math.abs(x - s.lastX) + Math.abs(y - s.lastY) + Math.abs(z - s.lastZ);
+      if (delta > 8) {
+        setIsShaking(true);
+        clearTimeout(shakingTimerRef.current);
+        shakingTimerRef.current = setTimeout(() => setIsShaking(false), 300);
+      }
       if (delta > 18 && now - s.lastTime > 500) {
         s.count++;
         s.lastTime = now;
-        if (s.count >= 2) { s.count = 0; triggerShake(); }
+        if (s.count >= 2) {
+          s.count = 0;
+          navigator.vibrate?.(80);
+          triggerShake();
+        }
       }
     }
     s.lastX = x; s.lastY = y; s.lastZ = z;
@@ -198,7 +209,7 @@ export default function ShakeApp() {
         <div
           style={{
             ...styles.ballWrapper,
-            animation: ballPop ? "wobble 0.9s ease-out" : "float 4s ease-in-out infinite",
+            animation: ballPop ? "wobble 0.9s ease-out" : isShaking ? "jitter 0.15s ease-in-out infinite" : "float 4s ease-in-out infinite",
             cursor: phase === "idle" ? "pointer" : "default",
           }}
           onClick={phase === "idle" ? triggerShake : undefined}
@@ -307,6 +318,7 @@ export default function ShakeApp() {
           100%{transform:rotate(0deg) scale(1)}
         }
         @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+        @keyframes jitter { 0%{transform:translate(0,0) rotate(0deg)} 25%{transform:translate(-4px,2px) rotate(-2deg)} 50%{transform:translate(4px,-2px) rotate(2deg)} 75%{transform:translate(-3px,3px) rotate(-1deg)} 100%{transform:translate(0,0) rotate(0deg)} }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
         @keyframes barPulse { 0%{transform:scaleY(0.3);opacity:0.4} 100%{transform:scaleY(1);opacity:1} }
       `}</style>
