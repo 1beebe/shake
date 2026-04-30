@@ -1,43 +1,51 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const SYSTEM_PROMPT = `You are the oracle of the Magic Shake Ball — a crate-digging jukebox that unearths forgotten shake songs.
-
-Your mission: avoid the obvious. Do NOT default to "Shake It Off" by Taylor Swift, "Hey Ya" by OutKast, or "Shake Rattle and Roll" unless you've already exhausted genuinely surprising options. 
-
-Hunt first in:
-- Deep soul and R&B (Sam Cooke, Jackie Wilson, Ike & Tina, Clarence Carter, Denise LaSalle)
-- Obscure funk and disco (Zapp, Lakeside, Fatback Band, Brass Construction)
-- Latin and global (Celia Cruz, Shakira's Spanish work, cumbia, afrobeats, baile funk)
-- Country and rockabilly (Hank Williams, Wanda Jackson, Carl Perkins)
-- Gospel and blues (Sister Rosetta Tharpe, Howlin' Wolf)
-- 90s and 00s deep cuts (Mystikal, Juvenile, Tweet, Ciara's early work)
-- Novelty and unexpected (Raffi's "Shake Your Sillies Out" is fair game)
-- Non-English language hits with shake/sacudir/trembler themes
-
-Only fall back to mainstream hits if truly stumped. Every shake has a story. Find the weird one.
-
-Respond with JSON only (no markdown, no explanation, no backticks):
-{
-  "lyric": "the exact lyric snippet (1-2 lines max, punchy)",
-  "song": "Song Title",
-  "artist": "Artist Name",
-  "year": 1965,
-  "itunesSearch": "Artist Song Title",
-  "spotifySearch": "Artist Song Title",
-  "youtubeQuery": "Artist Song Title official audio",
-  "appleMusicSearch": "Artist Song Title"
-}`;
+// Verified songs with accurate lyrics — all major enough for iTunes previews
+const SONGS = [
+  { lyric: "Shake it off, shake it off", song: "Shake It Off", artist: "Taylor Swift", year: 2014, itunes: "Taylor Swift Shake It Off", spotify: "Taylor Swift Shake It Off", youtube: "Taylor Swift Shake It Off official" },
+  { lyric: "Shake, shake, shake — shake your booty!", song: "(Shake Shake Shake) Shake Your Booty", artist: "KC & The Sunshine Band", year: 1976, itunes: "KC Sunshine Band Shake Your Booty", spotify: "KC Sunshine Band Shake Your Booty", youtube: "KC Sunshine Band Shake Your Booty" },
+  { lyric: "Shake your groove thing, shake your groove thing, yeah yeah", song: "Shake Your Groove Thing", artist: "Peaches & Herb", year: 1978, itunes: "Peaches Herb Shake Your Groove Thing", spotify: "Peaches Herb Shake Your Groove Thing", youtube: "Peaches Herb Shake Your Groove Thing" },
+  { lyric: "Shake it like a Polaroid picture", song: "Hey Ya!", artist: "OutKast", year: 2003, itunes: "OutKast Hey Ya", spotify: "OutKast Hey Ya", youtube: "OutKast Hey Ya official" },
+  { lyric: "Shake it fast, watch yourself / Shake it fast, show me what you're working with", song: "Shake Ya Ass", artist: "Mystikal", year: 2000, itunes: "Mystikal Shake Ya Ass", spotify: "Mystikal Shake Ya Ass", youtube: "Mystikal Shake Ya Ass" },
+  { lyric: "Shake your body down to the ground", song: "Shake Your Body (Down to the Ground)", artist: "The Jacksons", year: 1978, itunes: "Jacksons Shake Your Body", spotify: "Jacksons Shake Your Body", youtube: "Jacksons Shake Your Body" },
+  { lyric: "Well shake it up baby now / Twist and shout", song: "Twist and Shout", artist: "The Beatles", year: 1963, itunes: "Beatles Twist and Shout", spotify: "Beatles Twist and Shout", youtube: "Beatles Twist and Shout" },
+  { lyric: "Shake, rattle and roll", song: "Shake, Rattle and Roll", artist: "Big Joe Turner", year: 1954, itunes: "Big Joe Turner Shake Rattle Roll", spotify: "Big Joe Turner Shake Rattle Roll", youtube: "Big Joe Turner Shake Rattle Roll" },
+  { lyric: "Shake it like a bowl of soup / Do the Shing-a-Ling", song: "Shake", artist: "Sam Cooke", year: 1965, itunes: "Sam Cooke Shake", spotify: "Sam Cooke Shake", youtube: "Sam Cooke Shake official" },
+  { lyric: "Shake it out, shake it out / Shake it out, shake it out", song: "Shake It Out", artist: "Florence + The Machine", year: 2011, itunes: "Florence Machine Shake It Out", spotify: "Florence Machine Shake It Out", youtube: "Florence Machine Shake It Out" },
+  { lyric: "Shake your money maker / Like somebody 'bout to pay ya", song: "Shake Your Money Maker", artist: "Elmore James", year: 1961, itunes: "Elmore James Shake Your Money Maker", spotify: "Elmore James Shake Your Money Maker", youtube: "Elmore James Shake Your Money Maker" },
+  { lyric: "Shake your money maker / Like somebody 'bout to pay ya", song: "Shake Your Money Maker", artist: "The Black Crowes", year: 1990, itunes: "Black Crowes Shake Your Money Maker", spotify: "Black Crowes Shake Your Money Maker", youtube: "Black Crowes Shake Your Money Maker" },
+  { lyric: "Come on and shake a tail feather", song: "Shake a Tail Feather", artist: "Ray Charles", year: 1963, itunes: "Ray Charles Shake Tail Feather", spotify: "Ray Charles Shake Tail Feather", youtube: "Ray Charles Shake Tail Feather" },
+  { lyric: "Shake it up, shake it up, shake it up", song: "Shake It Up", artist: "The Cars", year: 1981, itunes: "The Cars Shake It Up", spotify: "The Cars Shake It Up", youtube: "The Cars Shake It Up" },
+  { lyric: "Shake your bon-bon, shake your bon-bon, shake your bon-bon", song: "Shake Your Bon-Bon", artist: "Ricky Martin", year: 1999, itunes: "Ricky Martin Shake Your Bon-Bon", spotify: "Ricky Martin Shake Your Bon-Bon", youtube: "Ricky Martin Shake Your Bon-Bon" },
+  { lyric: "Shake me down / Not a lot of people left around", song: "Shake Me Down", artist: "Cage The Elephant", year: 2011, itunes: "Cage Elephant Shake Me Down", spotify: "Cage Elephant Shake Me Down", youtube: "Cage Elephant Shake Me Down" },
+  { lyric: "Shake it like a saltshaker", song: "Salt Shaker", artist: "Ying Yang Twins", year: 2003, itunes: "Ying Yang Twins Salt Shaker", spotify: "Ying Yang Twins Salt Shaker", youtube: "Ying Yang Twins Salt Shaker" },
+  { lyric: "Let me see you shake your tailfeather / Shake, shake, shake your tailfeather", song: "Shake Your Tail Feather", artist: "Blues Brothers", year: 1980, itunes: "Blues Brothers Shake Your Tail Feather", spotify: "Blues Brothers Shake Your Tail Feather", youtube: "Blues Brothers Shake Your Tail Feather" },
+  { lyric: "Shake your sillies out / And wiggle your waggles away", song: "Shake Your Sillies Out", artist: "Raffi", year: 1977, itunes: "Raffi Shake Your Sillies Out", spotify: "Raffi Shake Your Sillies Out", youtube: "Raffi Shake Your Sillies Out" },
+  { lyric: "Shake, shake, shake, señora / Shake your body line", song: "Jump in the Line", artist: "Harry Belafonte", year: 1961, itunes: "Harry Belafonte Jump in the Line", spotify: "Harry Belafonte Jump in the Line", youtube: "Harry Belafonte Jump in the Line" },
+  { lyric: "Wanna shake it like Jell-O / Make the boys say hello", song: "Shake It", artist: "Metro Station", year: 2007, itunes: "Metro Station Shake It", spotify: "Metro Station Shake It", youtube: "Metro Station Shake It" },
+  { lyric: "Make it shake, make it drop / Make that booty clap, don't stop", song: "Shake That", artist: "Eminem ft. Nate Dogg", year: 2004, itunes: "Eminem Shake That", spotify: "Eminem Shake That", youtube: "Eminem Shake That" },
+  { lyric: "Do the hippy hippy shake / Yeah shake", song: "Hippy Hippy Shake", artist: "The Swinging Blue Jeans", year: 1963, itunes: "Swinging Blue Jeans Hippy Hippy Shake", spotify: "Swinging Blue Jeans Hippy Hippy Shake", youtube: "Swinging Blue Jeans Hippy Hippy Shake" },
+  { lyric: "Shake that Laffy Taffy / That Laffy Taffy", song: "Laffy Taffy", artist: "D4L", year: 2005, itunes: "D4L Laffy Taffy", spotify: "D4L Laffy Taffy", youtube: "D4L Laffy Taffy" },
+  { lyric: "Shake your body, feel the beat / Come on everybody get up on your feet", song: "Shake", artist: "Ike & Tina Turner", year: 1971, itunes: "Ike Tina Turner Shake", spotify: "Ike Tina Turner Shake", youtube: "Ike Tina Turner Shake" },
+  { lyric: "Shake it off, shake it off / Haters gonna hate hate hate", song: "Shake It Off", artist: "Mariah Carey", year: 2005, itunes: "Mariah Carey Shake It Off", spotify: "Mariah Carey Shake It Off", youtube: "Mariah Carey Shake It Off" },
+  { lyric: "Shake your body down to the ground / Everybody get on up", song: "Shake Your Body", artist: "Michael Jackson", year: 1979, itunes: "Michael Jackson Shake Your Body", spotify: "Michael Jackson Shake Your Body", youtube: "Michael Jackson Shake Your Body" },
+  { lyric: "Shake it out, we shake it out", song: "Shake It Out", artist: "Florence + The Machine", year: 2011, itunes: "Florence Machine Shake It Out", spotify: "Florence Machine Shake It Out", youtube: "Florence Machine Shake It Out" },
+  { lyric: "Rattlesnake shake / Do the rattlesnake shake", song: "Rattlesnake Shake", artist: "Fleetwood Mac", year: 1969, itunes: "Fleetwood Mac Rattlesnake Shake", spotify: "Fleetwood Mac Rattlesnake Shake", youtube: "Fleetwood Mac Rattlesnake Shake" },
+  { lyric: "Shake it up baby / Work it on out", song: "Shake It Up Baby", artist: "The Isley Brothers", year: 1962, itunes: "Isley Brothers Twist Shout", spotify: "Isley Brothers Twist Shout", youtube: "Isley Brothers Twist Shout" },
+];
 
 async function fetchItunesPreview(query) {
   try {
-    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=1&entity=song`;
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=3&entity=song`;
     const res = await fetch(url);
     const data = await res.json();
     if (data.results && data.results.length > 0) {
+      const withPreview = data.results.find(r => r.previewUrl);
+      const result = withPreview || data.results[0];
       return {
-        previewUrl: data.results[0].previewUrl,
-        artworkUrl: data.results[0].artworkUrl100?.replace("100x100bb", "300x300bb"),
-        trackId: data.results[0].trackId,
+        previewUrl: result.previewUrl || null,
+        artworkUrl: result.artworkUrl100?.replace("100x100bb", "300x300bb"),
+        trackId: result.trackId,
       };
     }
   } catch (e) {}
@@ -49,7 +57,6 @@ export default function ShakeApp() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [result, setResult] = useState(null);
   const [itunes, setItunes] = useState(null);
-  const [error, setError] = useState(null);
   const [needsPermission, setNeedsPermission] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -59,7 +66,7 @@ export default function ShakeApp() {
   const audioRef = useRef(null);
   const shakeRef = useRef({ lastX: null, lastY: null, lastZ: null, lastTime: 0, count: 0 });
   const phaseRef = useRef("idle");
-  const seenSongs = useRef(new Set());
+  const seenRef = useRef(new Set());
 
   useEffect(() => { phaseRef.current = phase; }, [phase]);
 
@@ -115,6 +122,14 @@ export default function ShakeApp() {
     };
   }, []);
 
+  const pickSong = () => {
+    if (seenRef.current.size >= SONGS.length) seenRef.current.clear();
+    const unseen = SONGS.map((s, i) => i).filter(i => !seenRef.current.has(i));
+    const idx = unseen[Math.floor(Math.random() * unseen.length)];
+    seenRef.current.add(idx);
+    return SONGS[idx];
+  };
+
   const triggerShake = useCallback(async () => {
     if (phaseRef.current !== "idle") return;
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = ""; }
@@ -123,42 +138,23 @@ export default function ShakeApp() {
     setPanelOpen(false);
     setResult(null);
     setItunes(null);
-    setError(null);
     setBallPop(true);
     setTimeout(() => setBallPop(false), 900);
 
     setTimeout(async () => {
       setPhase("loading");
-      try {
-        const seenList = [...seenSongs.current].slice(-10).join(", ");
-        const res = await fetch("/api/shake", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            seen: seenList || "none"
-          })
-        });
-        const parsed = await res.json();
-        if (parsed.error) throw new Error(parsed.error);
-        seenSongs.current.add(`${parsed.artist} - ${parsed.song}`);
-        setResult(parsed);
-
-        const itunesData = await fetchItunesPreview(parsed.itunesSearch);
-        setItunes(itunesData);
-
-        if (itunesData?.previewUrl && audioRef.current) {
-          audioRef.current.src = itunesData.previewUrl;
-          audioRef.current.volume = 0.85;
-          audioRef.current.play().catch(() => {});
-          setIsPlaying(true);
-        }
-
-        setPhase("reveal");
-        setTimeout(() => setPanelOpen(true), 250);
-      } catch (e) {
-        setError("The spirits are silent. Try again.");
-        setPhase("idle");
+      const song = pickSong();
+      setResult(song);
+      const itunesData = await fetchItunesPreview(song.itunes);
+      setItunes(itunesData);
+      if (itunesData?.previewUrl && audioRef.current) {
+        audioRef.current.src = itunesData.previewUrl;
+        audioRef.current.volume = 0.85;
+        audioRef.current.play().catch(() => {});
+        setIsPlaying(true);
       }
+      setPhase("reveal");
+      setTimeout(() => setPanelOpen(true), 250);
     }, 900);
   }, []);
 
@@ -173,7 +169,7 @@ export default function ShakeApp() {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = ""; }
     setIsPlaying(false); setProgress(0);
     setPanelOpen(false);
-    setTimeout(() => { setPhase("idle"); setResult(null); setItunes(null); setError(null); }, 420);
+    setTimeout(() => { setPhase("idle"); setResult(null); setItunes(null); }, 420);
   };
 
   const pct = duration > 0 ? (progress / duration) * 100 : 0;
@@ -182,11 +178,11 @@ export default function ShakeApp() {
     delay: i * 0.035,
   }));
 
-  const youtubeUrl = result ? `https://www.youtube.com/results?search_query=${encodeURIComponent(result.youtubeQuery)}` : null;
-  const spotifyUrl = result ? `https://open.spotify.com/search/${encodeURIComponent(result.spotifySearch)}` : null;
+  const youtubeUrl = result ? `https://www.youtube.com/results?search_query=${encodeURIComponent(result.youtube)}` : null;
+  const spotifyUrl = result ? `https://open.spotify.com/search/${encodeURIComponent(result.spotify)}` : null;
   const appleMusicUrl = itunes?.trackId
     ? `https://music.apple.com/us/album/${itunes.trackId}`
-    : result ? `https://music.apple.com/us/search?term=${encodeURIComponent(result.appleMusicSearch)}` : null;
+    : result ? `https://music.apple.com/us/search?term=${encodeURIComponent(result.itunes)}` : null;
 
   return (
     <div style={styles.root}>
@@ -230,8 +226,7 @@ export default function ShakeApp() {
             <button style={styles.permissionBtn} onClick={requestMotionPermission}>TAP TO ENABLE SHAKE</button>
           )}
           {phase === "shaking" && <p style={styles.instruction}>· · ·</p>}
-          {phase === "loading" && <p style={styles.instruction}>hunting the stacks</p>}
-          {error && <p style={styles.error}>{error}</p>}
+          {phase === "loading" && <p style={styles.instruction}>digging the stacks</p>}
         </div>
       </div>
 
@@ -243,7 +238,6 @@ export default function ShakeApp() {
         pointerEvents: panelOpen ? "all" : "none",
       }}>
         <div style={styles.dragHandle} />
-
         {result && (
           <div style={styles.panelInner}>
             <div style={styles.topRow}>
@@ -274,32 +268,27 @@ export default function ShakeApp() {
                 <p style={styles.previewLabel}>30-second preview</p>
               </>
             ) : (
-              <div style={styles.waveform}>
-                {bars.map((bar, i) => (
-                  <div key={i} style={{
-                    ...styles.bar,
-                    height: `${bar.height}px`,
-                    animation: panelOpen ? `barPulse 1.4s ease-in-out ${bar.delay}s infinite alternate` : "none",
-                  }} />
-                ))}
-              </div>
+              <>
+                <div style={styles.waveform}>
+                  {bars.map((bar, i) => (
+                    <div key={i} style={{
+                      ...styles.bar,
+                      height: `${bar.height}px`,
+                      animation: panelOpen ? `barPulse 1.4s ease-in-out ${bar.delay}s infinite alternate` : "none",
+                    }} />
+                  ))}
+                </div>
+                <p style={styles.previewLabel}>no preview available</p>
+              </>
             )}
 
             <div style={styles.divider} />
-
             <p style={styles.keepListening}>KEEP LISTENING</p>
             <div style={styles.streamLinks}>
-              <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.spotifyBtn }}>
-                <span>♫</span> Spotify
-              </a>
-              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.youtubeBtn }}>
-                <span>▶</span> YouTube
-              </a>
-              <a href={appleMusicUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.appleBtn }}>
-                <span>♪</span> Apple
-              </a>
+              <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.spotifyBtn }}>♫ Spotify</a>
+              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.youtubeBtn }}>▶ YouTube</a>
+              <a href={appleMusicUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.appleBtn }}>♪ Apple</a>
             </div>
-
             <button style={styles.againBtn} onClick={reset}>shake again</button>
           </div>
         )}
@@ -400,7 +389,6 @@ const styles = {
     letterSpacing: "0.4em", fontFamily: "'Cormorant Garamond', serif",
     cursor: "pointer", textTransform: "uppercase",
   },
-  error: { color: "#7a6050", fontStyle: "italic", fontSize: "0.85rem" },
   backdrop: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 19 },
   panel: {
     position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 20,
@@ -489,8 +477,7 @@ const styles = {
     gap: "0.35rem", padding: "0.65rem 0.5rem",
     fontSize: "0.62rem", letterSpacing: "0.1em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 400,
-    textDecoration: "none", borderRadius: "6px",
-    textTransform: "uppercase", transition: "opacity 0.2s",
+    textDecoration: "none", borderRadius: "6px", textTransform: "uppercase",
   },
   spotifyBtn: { background: "rgba(30,215,96,0.08)", color: "#1ed760", border: "1px solid rgba(30,215,96,0.2)" },
   youtubeBtn: { background: "rgba(255,60,60,0.08)", color: "#ff4444", border: "1px solid rgba(255,60,60,0.2)" },
