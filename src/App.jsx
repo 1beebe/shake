@@ -103,7 +103,7 @@ export default function ShakeApp() {
   };
 
   const handleMotion = useCallback((e) => {
-    if (phaseRef.current !== "idle") return;
+    if (phaseRef.current !== "idle" && phaseRef.current !== "reveal") return;
     const { x, y, z } = e.acceleration || {};
     if (x == null) return;
     const now = Date.now();
@@ -153,7 +153,7 @@ export default function ShakeApp() {
   };
 
   const triggerShake = useCallback(async () => {
-    if (phaseRef.current !== "idle") return;
+    if (phaseRef.current !== "idle" && phaseRef.current !== "reveal") return;
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = ""; }
     setIsPlaying(false); setProgress(0);
     setPhase("shaking");
@@ -202,9 +202,6 @@ export default function ShakeApp() {
 
   const youtubeUrl = result ? `https://www.youtube.com/results?search_query=${encodeURIComponent(result.youtube)}` : null;
   const spotifyUrl = result ? `https://open.spotify.com/search/${encodeURIComponent(result.spotify)}` : null;
-  const appleMusicUrl = itunes?.trackId
-    ? `https://music.apple.com/us/album/${itunes.trackId}`
-    : result ? `https://music.apple.com/us/search?term=${encodeURIComponent(result.itunes)}` : null;
 
   return (
     <div style={styles.root}>
@@ -315,9 +312,8 @@ export default function ShakeApp() {
             <div style={styles.streamLinks}>
               <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.spotifyBtn }}>♫ Spotify</a>
               <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.youtubeBtn }}>▶ YouTube</a>
-              <a href={appleMusicUrl} target="_blank" rel="noopener noreferrer" style={{ ...styles.streamBtn, ...styles.appleBtn }}>♪ Apple</a>
             </div>
-            <button style={styles.againBtn} onClick={reset}>shake again</button>
+            <button style={styles.againBtn} onClick={triggerShake}>shake again</button>
           </div>
         )}
       </div>
@@ -523,7 +519,6 @@ const styles = {
   },
   spotifyBtn: { background: "rgba(30,215,96,0.08)", color: "#1ed760", border: "1px solid rgba(30,215,96,0.2)" },
   youtubeBtn: { background: "rgba(255,60,60,0.08)", color: "#ff4444", border: "1px solid rgba(255,60,60,0.2)" },
-  appleBtn: { background: "rgba(252,60,68,0.08)", color: "#fc3c44", border: "1px solid rgba(252,60,68,0.2)" },
   footer: {
     color: "#3a3020", fontSize: "0.7rem", fontFamily: "'Cormorant Garamond', serif",
     fontStyle: "italic", textDecoration: "none", opacity: 0.6,
