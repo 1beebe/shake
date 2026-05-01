@@ -6,34 +6,43 @@ const SONGS = [
   { lyric: "Shake, shake, shake — shake your booty!", song: "(Shake Shake Shake) Shake Your Booty", artist: "KC & The Sunshine Band", year: 1976, itunes: "KC Sunshine Band Shake Your Booty", spotify: "KC Sunshine Band Shake Your Booty", youtube: "KC Sunshine Band Shake Your Booty" },
   { lyric: "Shake your groove thing, shake your groove thing, yeah yeah", song: "Shake Your Groove Thing", artist: "Peaches & Herb", year: 1978, itunes: "Peaches Herb Shake Your Groove Thing", spotify: "Peaches Herb Shake Your Groove Thing", youtube: "Peaches Herb Shake Your Groove Thing" },
   { lyric: "Shake it like a Polaroid picture", song: "Hey Ya!", artist: "OutKast", year: 2003, itunes: "OutKast Hey Ya", spotify: "OutKast Hey Ya", youtube: "OutKast Hey Ya official" },
-  { lyric: "Shake ya ass, but watch ya self / Shake ya ass, show me what you're working with", song: "Shake Ya Ass", artist: "Mystikal", year: 2000, itunes: "Mystikal Shake Ya Ass", spotify: "Mystikal Shake Ya Ass", youtube: "Mystikal Shake Ya Ass" },
+  { lyric: "Shake ya ass, but watch ya self / Shake ya ass, show me what you're working with", song: "Shake Ya Ass", artist: "Mystikal", year: 2000, explicit: true, itunes: "Mystikal Shake Ya Ass", spotify: "Mystikal Shake Ya Ass", youtube: "Mystikal Shake Ya Ass" },
   { lyric: "Shake your body down to the ground", song: "Shake Your Body (Down to the Ground)", artist: "The Jacksons", year: 1978, itunes: "Jacksons Shake Your Body", spotify: "Jacksons Shake Your Body", youtube: "Jacksons Shake Your Body" },
-  { lyric: "Well shake it up baby now / Twist and shout", song: "Twist and Shout", artist: "The Beatles", year: 1963, itunes: "Beatles Twist and Shout", spotify: "Beatles Twist and Shout", youtube: "Beatles Twist and Shout" },
+  { lyric: "Well shake it up baby now / Twist and shout", song: "Twist and Shout", artist: "The Beatles", year: 1963, coversOriginalBy: "The Isley Brothers", itunes: "Beatles Twist and Shout", spotify: "Beatles Twist and Shout", youtube: "Beatles Twist and Shout" },
   { lyric: "Shake, rattle and roll", song: "Shake, Rattle and Roll", artist: "Big Joe Turner", year: 1954, itunes: "Big Joe Turner Shake Rattle Roll", spotify: "Big Joe Turner Shake Rattle Roll", youtube: "Big Joe Turner Shake Rattle Roll" },
   { lyric: "Shake it like a bowl of soup / Do the Shing-a-Ling", song: "Shake", artist: "Sam Cooke", year: 1965, itunes: "Sam Cooke Shake", spotify: "Sam Cooke Shake", youtube: "Sam Cooke Shake official" },
-  { lyric: "Shake it like a bowl of soup / Let your body loop de loop", song: "Shake", artist: "Otis Redding", year: 1965, itunes: "Otis Redding Shake", spotify: "Otis Redding Shake", youtube: "Otis Redding Shake live" },
+  { lyric: "Shake it like a bowl of soup / Let your body loop de loop", song: "Shake", artist: "Otis Redding", year: 1965, coversOriginalBy: "Sam Cooke", itunes: "Otis Redding Shake", spotify: "Otis Redding Shake", youtube: "Otis Redding Shake live" },
   { lyric: "You shook me all night long", song: "You Shook Me All Night Long", artist: "AC/DC", year: 1980, itunes: "ACDC You Shook Me All Night Long", spotify: "ACDC You Shook Me All Night Long", youtube: "ACDC You Shook Me All Night Long official" },
   { lyric: "Shake your money maker / Like somebody 'bout to pay ya", song: "Shake Your Money Maker", artist: "Elmore James", year: 1961, itunes: "Elmore James Shake Your Money Maker", spotify: "Elmore James Shake Your Money Maker", youtube: "Elmore James Shake Your Money Maker" },
-  { lyric: "Shake your money maker / Like somebody 'bout to pay ya", song: "Shake Your Money Maker", artist: "The Black Crowes", year: 1990, itunes: "Black Crowes Shake Your Money Maker", spotify: "Black Crowes Shake Your Money Maker", youtube: "Black Crowes Shake Your Money Maker" },
-  { lyric: "Come on and shake a tail feather", song: "Shake a Tail Feather", artist: "Ray Charles", year: 1963, itunes: "Ray Charles Shake Tail Feather", spotify: "Ray Charles Shake Tail Feather", youtube: "Ray Charles Shake Tail Feather" },
+  { lyric: "Shake your money maker / Like somebody 'bout to pay ya", song: "Shake Your Money Maker", artist: "The Black Crowes", year: 1990, coversOriginalBy: "Elmore James", itunes: "Black Crowes Shake Your Money Maker", spotify: "Black Crowes Shake Your Money Maker", youtube: "Black Crowes Shake Your Money Maker" },
+  { lyric: "Come on and shake a tail feather", song: "Shake a Tail Feather", artist: "Ray Charles", year: 1963, coversOriginalBy: "The Five Du-Tones", itunes: "Ray Charles Shake Tail Feather", spotify: "Ray Charles Shake Tail Feather", youtube: "Ray Charles Shake Tail Feather" },
   { lyric: "Shake it up, shake it up, shake it up", song: "Shake It Up", artist: "The Cars", year: 1981, itunes: "The Cars Shake It Up", spotify: "The Cars Shake It Up", youtube: "The Cars Shake It Up" },
   { lyric: "Shake your bon-bon, shake your bon-bon, shake your bon-bon", song: "Shake Your Bon-Bon", artist: "Ricky Martin", year: 1999, itunes: "Ricky Martin Shake Your Bon-Bon", spotify: "Ricky Martin Shake Your Bon-Bon", youtube: "Ricky Martin Shake Your Bon-Bon" },
   { lyric: "Shake me down / Not a lot of people left around", song: "Shake Me Down", artist: "Cage The Elephant", year: 2011, itunes: "Cage Elephant Shake Me Down", spotify: "Cage Elephant Shake Me Down", youtube: "Cage Elephant Shake Me Down" },
-  { lyric: "Shake it like a saltshaker", song: "Salt Shaker", artist: "Ying Yang Twins", year: 2003, itunes: "Ying Yang Twins Salt Shaker", spotify: "Ying Yang Twins Salt Shaker", youtube: "Ying Yang Twins Salt Shaker" },
-  { lyric: "Let me see you shake your tailfeather / Shake, shake, shake your tailfeather", song: "Shake Your Tail Feather", artist: "Blues Brothers", year: 1980, itunes: "Blues Brothers Shake Your Tail Feather", spotify: "Blues Brothers Shake Your Tail Feather", youtube: "Blues Brothers Shake Your Tail Feather" },
+  { lyric: "Shake it like a saltshaker", song: "Salt Shaker", artist: "Ying Yang Twins", year: 2003, explicit: true, itunes: "Ying Yang Twins Salt Shaker", spotify: "Ying Yang Twins Salt Shaker", youtube: "Ying Yang Twins Salt Shaker" },
+  { lyric: "Let me see you shake your tailfeather / Shake, shake, shake your tailfeather", song: "Shake Your Tail Feather", artist: "Blues Brothers", year: 1980, coversOriginalBy: "The Five Du-Tones", itunes: "Blues Brothers Shake Your Tail Feather", spotify: "Blues Brothers Shake Your Tail Feather", youtube: "Blues Brothers Shake Your Tail Feather" },
   { lyric: "Shake your sillies out / And wiggle your waggles away", song: "Shake Your Sillies Out", artist: "Raffi", year: 1977, itunes: "Raffi Shake Your Sillies Out", spotify: "Raffi Shake Your Sillies Out", youtube: "Raffi Shake Your Sillies Out" },
   { lyric: "Shake, shake, shake, señora / Shake your body line", song: "Jump in the Line", artist: "Harry Belafonte", year: 1961, itunes: "Harry Belafonte Jump in the Line", spotify: "Harry Belafonte Jump in the Line", youtube: "Harry Belafonte Jump in the Line" },
   { lyric: "Shake, shake, shake, shake, a-shake it", song: "Shake It", artist: "Metro Station", year: 2007, itunes: "Metro Station Shake It", spotify: "Metro Station Shake It", youtube: "Metro Station Shake It" },
-  { lyric: "Make it shake, make it drop / Make that booty clap, don't stop", song: "Shake That", artist: "Eminem ft. Nate Dogg", year: 2004, itunes: "Eminem Shake That", spotify: "Eminem Shake That", youtube: "Eminem Shake That" },
-  { lyric: "Do the hippy hippy shake / Yeah shake", song: "Hippy Hippy Shake", artist: "The Swinging Blue Jeans", year: 1963, itunes: "Swinging Blue Jeans Hippy Hippy Shake", spotify: "Swinging Blue Jeans Hippy Hippy Shake", youtube: "Swinging Blue Jeans Hippy Hippy Shake" },
-  { lyric: "Shake that Laffy Taffy / That Laffy Taffy", song: "Laffy Taffy", artist: "D4L", year: 2005, itunes: "D4L Laffy Taffy", spotify: "D4L Laffy Taffy", youtube: "D4L Laffy Taffy" },
-  { lyric: "Bend over and let me see you shake a tail feather", song: "Shake a Tail Feather", artist: "Ike & Tina Turner", year: 1971, itunes: "Ike Tina Turner Shake Tail Feather", spotify: "Ike Tina Turner Shake Tail Feather", youtube: "Ike Tina Turner Shake Tail Feather" },
+  { lyric: "Make it shake, make it drop / Make that booty clap, don't stop", song: "Shake That", artist: "Eminem ft. Nate Dogg", year: 2004, explicit: true, itunes: "Eminem Shake That", spotify: "Eminem Shake That", youtube: "Eminem Shake That" },
+  { lyric: "Do the hippy hippy shake / Yeah shake", song: "Hippy Hippy Shake", artist: "The Swinging Blue Jeans", year: 1963, coversOriginalBy: "Chan Romero", itunes: "Swinging Blue Jeans Hippy Hippy Shake", spotify: "Swinging Blue Jeans Hippy Hippy Shake", youtube: "Swinging Blue Jeans Hippy Hippy Shake" },
+  { lyric: "Shake that Laffy Taffy / That Laffy Taffy", song: "Laffy Taffy", artist: "D4L", year: 2005, explicit: true, itunes: "D4L Laffy Taffy", spotify: "D4L Laffy Taffy", youtube: "D4L Laffy Taffy" },
+  { lyric: "Bend over and let me see you shake a tail feather", song: "Shake a Tail Feather", artist: "Ike & Tina Turner", year: 1971, coversOriginalBy: "The Five Du-Tones", itunes: "Ike Tina Turner Shake Tail Feather", spotify: "Ike Tina Turner Shake Tail Feather", youtube: "Ike Tina Turner Shake Tail Feather" },
   { lyric: "I gotta shake you off / The loving ain't the same", song: "Shake It Off", artist: "Mariah Carey", year: 2005, itunes: "Mariah Carey Shake It Off", spotify: "Mariah Carey Shake It Off", youtube: "Mariah Carey Shake It Off" },
   { lyric: "Shake your body down to the ground / Everybody get on up", song: "Shake Your Body", artist: "Michael Jackson", year: 1979, itunes: "Michael Jackson Shake Your Body", spotify: "Michael Jackson Shake Your Body", youtube: "Michael Jackson Shake Your Body" },
   { lyric: "Shake it out, we shake it out", song: "Shake It Out", artist: "Florence + The Machine", year: 2011, itunes: "Florence Machine Shake It Out", spotify: "Florence Machine Shake It Out", youtube: "Florence Machine Shake It Out" },
   { lyric: "Rattlesnake shake / Do the rattlesnake shake", song: "Rattlesnake Shake", artist: "Fleetwood Mac", year: 1969, itunes: "Fleetwood Mac Rattlesnake Shake", spotify: "Fleetwood Mac Rattlesnake Shake", youtube: "Fleetwood Mac Rattlesnake Shake" },
   { lyric: "Shake it up baby / Work it on out", song: "Shake It Up Baby", artist: "The Isley Brothers", year: 1962, itunes: "Isley Brothers Twist Shout", spotify: "Isley Brothers Twist Shout", youtube: "Isley Brothers Twist Shout" },
   { lyric: "Come on and shake it, shake it, shake it / Shakin'", song: "Shakin'", artist: "Eddie Money", year: 1987, itunes: "Eddie Money Shakin", spotify: "Eddie Money Shakin", youtube: "Eddie Money Shakin official" },
+  { lyric: "Shake watcha mama gave y'all", song: "Shake Whatcha Mama Gave Ya", artist: "Frankie Cutlass ft. Stik-E & the Hoodz", year: 1994, itunes: "Frankie Cutlass Shake Whatcha Mama Gave Ya", spotify: "Frankie Cutlass Shake Whatcha Mama Gave Ya", youtube: "Frankie Cutlass Shake Whatcha Mama Gave Ya" },
+  { lyric: "My milkshake brings all the boys to the yard", song: "Milkshake", artist: "Kelis", year: 2003, itunes: "Kelis Milkshake", spotify: "Kelis Milkshake", youtube: "Kelis Milkshake official" },
+  { lyric: "Well, I'm all shook up", song: "All Shook Up", artist: "Elvis Presley", year: 1957, itunes: "Elvis Presley All Shook Up", spotify: "Elvis Presley All Shook Up", youtube: "Elvis Presley All Shook Up official" },
+  { lyric: "Really love your peaches, wanna shake your tree", song: "The Joker", artist: "Steve Miller Band", year: 1973, itunes: "Steve Miller Band The Joker", spotify: "Steve Miller Band The Joker", youtube: "Steve Miller Band The Joker official" },
+  { lyric: "Shake a leg, shake a leg", song: "Shake a Leg", artist: "AC/DC", year: 1980, itunes: "ACDC Shake a Leg", spotify: "ACDC Shake a Leg", youtube: "ACDC Shake a Leg official" },
+  { lyric: "Take a bottle, shake it up", song: "Pour Some Sugar on Me", artist: "Def Leppard", year: 1987, itunes: "Def Leppard Pour Some Sugar on Me", spotify: "Def Leppard Pour Some Sugar on Me", youtube: "Def Leppard Pour Some Sugar on Me official" },
+  { lyric: "Shake it, Cali / shake it, baby", song: "California Love", artist: "2Pac ft. Dr. Dre", year: 1995, itunes: "2Pac California Love", spotify: "2Pac California Love", youtube: "2Pac California Love official" },
+  { lyric: "I got the peg leg at the end of my stump / Shake your rump", song: "Shake Your Rump", artist: "Beastie Boys", year: 1989, itunes: "Beastie Boys Shake Your Rump", spotify: "Beastie Boys Shake Your Rump", youtube: "Beastie Boys Shake Your Rump official" },
+  { lyric: "Shake ya body like a belly dancer", song: "Bananza (Belly Dancer)", artist: "Akon", year: 2004, itunes: "Akon Bananza Belly Dancer", spotify: "Akon Bananza Belly Dancer", youtube: "Akon Bananza Belly Dancer official" },
 ];
 
 async function fetchItunesPreview(query) {
@@ -262,8 +271,12 @@ export default function ShakeApp() {
               }
               <div style={styles.songInfo}>
                 <p style={styles.nowPlaying}>NOW PLAYING</p>
-                <p style={styles.songTitle}>{result.song}</p>
+                <div style={styles.songTitleRow}>
+                  <p style={styles.songTitle}>{result.song}</p>
+                  {result.explicit && <span style={styles.explicitBadge}>E</span>}
+                </div>
                 <p style={styles.songArtist}>{result.artist}{result.year ? ` · ${result.year}` : ""}</p>
+                {result.coversOriginalBy && <p style={styles.coverNote}>cover of {result.coversOriginalBy}</p>}
               </div>
             </div>
 
@@ -439,14 +452,27 @@ const styles = {
     color: "#c9a84c", fontSize: "0.7rem", letterSpacing: "0.5em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, opacity: 0.55,
   },
+  songTitleRow: { display: "flex", alignItems: "center", gap: "0.5rem" },
   songTitle: {
     color: "#e8dfc8", fontSize: "1.3rem",
     fontFamily: "'Playfair Display', serif", fontWeight: 700,
+  },
+  explicitBadge: {
+    display: "inline-flex", alignItems: "center", justifyContent: "center",
+    width: "16px", height: "16px", borderRadius: "2px",
+    background: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.5)",
+    fontSize: "0.6rem", fontFamily: "'Cormorant Garamond', serif",
+    fontWeight: 400, fontStyle: "normal", flexShrink: 0,
+    letterSpacing: 0, lineHeight: 1,
   },
   songArtist: {
     color: "#c9a84c", fontSize: "0.85rem", letterSpacing: "0.3em",
     fontFamily: "'Cormorant Garamond', serif", fontWeight: 300,
     textTransform: "uppercase", opacity: 0.65,
+  },
+  coverNote: {
+    color: "#5a5040", fontSize: "0.78rem",
+    fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
   },
   lyric: {
     color: "#e8dfc8", fontSize: "1.4rem", fontFamily: "'Playfair Display', serif",
