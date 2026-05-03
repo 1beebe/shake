@@ -42,6 +42,9 @@ const SONGS = [
   { lyric: "Shake it, Cali / shake it, baby", song: "California Love", artist: "2Pac ft. Dr. Dre", year: 1995, itunes: "2Pac California Love", spotify: "2Pac California Love", youtube: "2Pac California Love official" },
   { lyric: "I got the peg leg at the end of my stump / Shake your rump", song: "Shake Your Rump", artist: "Beastie Boys", year: 1989, itunes: "Beastie Boys Shake Your Rump", spotify: "Beastie Boys Shake Your Rump", youtube: "Beastie Boys Shake Your Rump official" },
   { lyric: "Shake ya body like a belly dancer", song: "Bananza (Belly Dancer)", artist: "Akon", year: 2004, itunes: "Akon Bananza Belly Dancer", spotify: "Akon Bananza Belly Dancer", youtube: "Akon Bananza Belly Dancer official" },
+  { lyric: "Shake it baby shake / I said shake it baby shake", song: "Whole Lotta Shakin' Goin' On", artist: "Jerry Lee Lewis", year: 1957, itunes: "Jerry Lee Lewis Whole Lotta Shakin Goin On", spotify: "Jerry Lee Lewis Whole Lotta Shakin Goin On", youtube: "Jerry Lee Lewis Whole Lotta Shakin Goin On" },
+  { lyric: "He shook her like you shake jelly on a plate", song: "Shake That Thing", artist: "Ethel Waters", year: 1925, itunes: "Ethel Waters Shake That Thing", spotify: "Ethel Waters Shake That Thing", youtube: "Ethel Waters Shake That Thing" },
+  { lyric: "I've been watching you shake that thing", song: "Shake That Thing", artist: "Sean Paul", year: 2002, itunes: "Sean Paul Shake That Thing", spotify: "Sean Paul Shake That Thing", youtube: "Sean Paul Shake That Thing" },
 ];
 
 async function fetchItunesPreview(query) {
@@ -79,8 +82,23 @@ export default function ShakeApp() {
   const shakingTimerRef = useRef(null);
   const phaseRef = useRef("idle");
   const seenRef = useRef(new Set());
+  const audioUnlockedRef = useRef(false);
 
   useEffect(() => { phaseRef.current = phase; }, [phase]);
+
+  // iOS Safari blocks audio triggered by non-gesture events (shake detection).
+  // Playing a silent clip on the first tap unlocks the audio context for the session.
+  useEffect(() => {
+    const unlock = () => {
+      if (audioUnlockedRef.current) return;
+      audioUnlockedRef.current = true;
+      const sil = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+      sil.play().catch(() => {});
+      document.removeEventListener("touchstart", unlock);
+    };
+    document.addEventListener("touchstart", unlock);
+    return () => document.removeEventListener("touchstart", unlock);
+  }, []);
 
   useEffect(() => {
     if (typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function") {
